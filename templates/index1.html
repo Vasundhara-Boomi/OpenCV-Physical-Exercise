@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Importance of Physical Health</title>
+    <link rel="stylesheet" href="static/style.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <header>
+        <div class="label"><div class="text-wrapper">Elevate Your Health: The Path to Total Well-being</div></div>
+
+
+    </header>
+    <a href="{{ url_for('phy_health') }}" class="label1"><div class="text-wrapper1">LETS GET STARTED &rarr;</div></a>
+
+    <main>
+        <section class="importance">
+            <h2>Stronger Today, Brighter Tomorrow</h2>
+        
+        </section>
+        
+        <div class="video-container">
+            <div id="black-rectangle"></div>
+            <video autoplay loop muted>
+                <source src="static/exercise.mp4" type="video/mp4">
+            </video>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Event listener for "Let's Get Started" button in index1.html
+            $('.label1').on('click', function(e) {
+                // Remove the alert message from the DOM when starting the challenge again
+                $('.alert-success').remove();
+            });
+        });
+    </script>
+    
+    
+</body>
+</html>

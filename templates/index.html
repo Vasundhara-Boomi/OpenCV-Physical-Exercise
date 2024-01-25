@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flex & Tone</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('static/bg.png'); /* Change the background color as needed */
+            color: white; /* Text color */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #video-container {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        #video-container img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .side-content {
+            background-color: rgba(255, 255, 255, 0.3); /* Transparent white background */
+            padding: 40px;
+            width: 37%;
+            border-radius: 10px;
+            margin-right: 60px; /* Adjust spacing from the video */
+            margin-top: 20px; /* Adjust top margin */
+            height: 420px; /* Adjust height */
+            margin-left:40px;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container a {
+            text-decoration: none;
+            border-radius: 20px;
+            color: white;
+            margin-right: 7px;
+        }
+
+        .button-container a.restart {
+            background-color: #3641da;;
+            padding: 8px 50px;
+            margin-top: 10px;
+        }
+
+
+        .alert-container {
+            position: absolute;
+            top: -25px; /* Adjust as needed to position the alert */
+            right: 80px; /* Adjust as needed to position the alert */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // Function to fetch updated counts via AJAX
+        function fetchCounts() {
+            $.ajax({
+                url: '/get_counts', // Endpoint to get counts
+                type: 'GET',
+                success: function(data) {
+                    updateCounts(data); // Function to handle count updates
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching counts:', error);
+                }
+            });
+        }
+
+        let alertDisplayed = false; // Flag to track if the alert has been displayed
+
+    // Function to handle count updates
+    function updateCounts(data) {
+        let counter_left = data.counter_left;
+        let counter_right = data.counter_right;
+
+        if (counter_left >= 16 && counter_right >= 16 && !alertDisplayed) {
+            const alertContainer = document.querySelector('.alert-container');
+            const alertMessage = document.createElement('div');
+            alertMessage.classList.add('alert', 'alert-success', 'mt-4');
+            alertMessage.setAttribute('role', 'alert');
+            alertMessage.innerHTML = `
+            <strong>Congratulations!</strong> You have completed the challenge. SCORE: 200 &#127942;
+            `;
+            alertContainer.appendChild(alertMessage);
+
+            alertDisplayed = true; // Set the flag to true once the alert is displayed
+        }
+
+        // Schedule the next fetch after a certain interval (e.g., 3 seconds)
+        setTimeout(fetchCounts, 3000);
+    }
+
+    function restartChallenge() {
+        // Add AJAX request to reset the counters to zero
+        $.ajax({
+            url: '/reset_counters', // Endpoint to reset counters
+            type: 'GET',
+            success: function(response) {
+                // Log success message or handle the response as needed
+                console.log('Counters reset successfully:', response);
+                // Reset the alert flag so that the alert can be displayed again
+                alertDisplayed = false;
+                $('.alert-success').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error resetting counters:', error);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // Start fetching counts when the document is ready
+        fetchCounts();
+
+        // Event listener for the restart button
+        $('.restart').on('click', function(e) {
+            e.preventDefault();
+            restartChallenge();
+            window.location.href = '/restart';
+        });
+        $('.get-started').on('click', function(e) {
+            // Remove the alert message from the DOM when starting the challenge again
+            $('.alert-success').remove();
+        });
+    });
+
+    </script>
+ 
+</head>
+<body>
+    <h1>Mediapipe Pose Detection</h1>
+    <div id="video-container">
+        <div class="side-content">
+            <h2>Importance of Wide Curls Exercise</h2>
+            <ul>
+                <li>💪 Strengthen biceps and forearms</li>
+                <li>🔒 Improve grip strength</li>
+                <li>🔄 Work multiple muscle groups simultaneously</li>
+                <li>⬇️ Reduce the risk of injury in related activities</li>
+            </ul>
+            <h2>Challenge</h2>
+            <p>🏋️‍♂️ Complete 16 counts for each arm!</p>
+            <div class="button-container">
+                <a href="{{ url_for('restart') }}" class="restart"><strong>EXIT</strong></a>
+            </div>
+            <div class="alert-container">
+                <!-- Alert messages will be placed here -->
+            </div>
+        </div>
+        <img src="{{ url_for('video_feed') }}" alt="Pose Detection">
+    </div>
+
+    
+    
+    
+</body>
+</html>

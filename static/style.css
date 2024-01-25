@@ -1,0 +1,96 @@
+body {
+    font-family: "Montserrat-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 18px;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('bg.png'); /* Replace 'path/to/your/image.jpg' with your image path */
+    background-size: cover;
+    background-position: center;
+    color: white; /* Text color */
+}
+
+.label {
+    width: 237px;
+    height: 257px;
+}
+
+.label .text-wrapper {
+    position: fixed;
+    width: 560px;
+    top: 150px;
+    left: 70px;
+    font-family: "Montserrat-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 62px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+
+.importance{
+    margin-left:-567px;
+    margin-top: -75px;
+}
+.importance.h2{
+    font-size: 100px;
+    margin-left:-700px;
+    
+}
+
+.label1 {
+    width: 300px;
+    height: 38px;
+}
+
+.label1 .text-wrapper1 {
+    position: fixed;
+    top: 450px;
+    left: 70px;
+    font-family: "Montserrat-Regular", Helvetica;
+    font-weight: 400;
+    color: #faf3fc;
+    font-size: 22px;
+    letter-spacing: 0;
+    line-height: 38.4px;
+    white-space: nowrap;
+    
+}
+
+
+
+
+.video-container {
+    position: absolute;
+    top: 50%;
+    right: 90px;
+    transform: translateY(-50%);
+}
+
+.video-container video {
+    width: 400px; 
+    height: auto; 
+    border-radius: 30px;
+}
+
+
+#black-rectangle {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.205);
+    width: 500px; 
+    height: 377px;
+    top:-70px;
+    left: 200px; 
+    transform: translateX(-50%);
+    cursor: move;
+    z-index: -1; /* Place the rectangle behind the video */
+    border-radius: 40px; /* Curved edges */
+}
